@@ -2,9 +2,6 @@
 
 
 ```
-minikube start
-code .
-
 cd hello-world
 kubectl create ns skaffold
 kubectl ns skaffold

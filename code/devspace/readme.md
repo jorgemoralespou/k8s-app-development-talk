@@ -1,9 +1,6 @@
 # Devspace
 
 ```
-minikube start
-code .
-
 cd hello-world
 kubectl create ns devspace
 kubectl ns devspace

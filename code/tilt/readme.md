@@ -6,9 +6,6 @@ Preparation
 ```
 
 ```
-minikube start
-code .
-
 cd hello-world
 kubectl create ns tilt
 kubectl ns tilt

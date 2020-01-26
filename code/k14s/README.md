@@ -5,20 +5,18 @@ This step can works against Minikube or remote cluster.
 ```bash
 kubectl create ns k14s
 kubectl ns k14s
+docker login registry.test:5000 -u user -p password
 ```
 
-## Step1
+## Step1 - Deploy application
 ```bash
-docker login registry.test:5000 -u user -p password
 kapp deploy -a hello-world -f step-1
-kapp deploy -a hello-world -f step-1 --diff-changes
-kapp deploy -a hello-world -f step-1 --diff-changes -y
 
 kapp inspect -a hello-world --tree
 kapp logs -f -a hello-world
 ```
 
-## Step 2
+## Step 2 - Deploy app with template processing
 ```bash
 ytt -f step-2
 ytt -f step-2 | kapp deploy -a hello-world -f- --diff-changes
@@ -26,25 +24,20 @@ ytt -f step-2 -v route="helloworld.k14s.test" | kapp deploy -a hello-world -f- -
 ytt -f step-2 -v route="helloworld.k14s.test" | kapp deploy -a hello-world -f- --diff-changes -y
 ```
 
-## Overlays
+## Overlays - Deploy with overlay processing
 ```bash
 ytt -f step-2
-ytt -f step-2 | kapp deploy -a hello-world -f- --diff-changes
-ytt -f step-2 -v route="helloworld.k14s.test" | kapp deploy -a hello-world -f- --diff-changes
-ytt -f step-2 -v route="helloworld.k14s.test" | kapp deploy -a hello-world -f- --diff-changes -y
+ytt -f step-2 -f overlay | kapp deploy -a hello-world -f- --diff-changes
 ```
 
-# Step 3
+# Step 3 - Build image and replace img ref
 ```bash
 ytt -f step-3 | kbld -f-
 ytt -f step-3 | kbld -f- | kapp deploy -a hello-world -f- --diff-changes
-kapp inspect -a hello-world --raw --filter-kind Deployment
 ```
 
-# Step 4
+# Step 4 - Build, push and replace img ref
 ```bash
-docker login registry.test:5000 -u user -p password
-
 ytt -f step-3 | kbld -f- | kapp deploy -a hello-world -f- --diff-changes
 kapp inspect -a hello-world --raw --filter-kind Deployment | kbld inspect -f-
 ```

@@ -1,7 +1,6 @@
 # Garden
 
 ```
-code .
 cd hello-world-project
 
 kubectl create ns garden
