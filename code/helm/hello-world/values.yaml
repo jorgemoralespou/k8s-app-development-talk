@@ -1,0 +1,13 @@
+replicaCount: 1
+image:
+  repository: okteto/hello-world
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  hosts:
+    - host: hello-world.helm.test
+      paths: ['/']

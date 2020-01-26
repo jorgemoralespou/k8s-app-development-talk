@@ -1,0 +1,14 @@
+name: hello-world
+image: registry.test:5000/okteto/go-livereload:latest
+workdir: /okteto
+command: ["air"]
+volumes:
+  - /go/pkg/
+  - /root/.cache/go-build/
+securityContext:
+  capabilities:
+    add:
+    - SYS_PTRACE 
+forward:
+  - 8080:8080
+  - 2345:2345

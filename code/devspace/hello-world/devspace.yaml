@@ -1,0 +1,26 @@
+version: v1beta6
+images:
+  default:
+    image: registry.test:5000/devspace/hello-world
+deployments:
+- name: hello-world
+  helm:
+    componentChart: true
+    values:
+      containers:
+      - image: registry.test:5000/devspace/hello-world
+      service:
+        ports:
+        - port: 8080
+dev:
+  ports:
+  - imageName: default
+    forward:
+    - port: 8080
+  open:
+  - url: http://localhost:8080
+  sync:
+  - imageName: default
+    excludePaths:
+    - Dockerfile
+    - devspace.yaml

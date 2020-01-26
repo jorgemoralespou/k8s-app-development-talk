@@ -1,0 +1,8 @@
+#@data/values
+---
+svc_port: 8080
+app_port: 8080
+label: k8s-apps-demo
+route: hello-world.k14s.test
+push_images: true
+push_images_repo: registry.test:5000/hello-world

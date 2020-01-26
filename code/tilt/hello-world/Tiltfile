@@ -1,0 +1,6 @@
+# -*- mode: Python -*-
+default_registry('registry.test:5000/user')
+
+docker_build('registry.test:5000/user/hello-world', '.')
+k8s_yaml('k8s.yml')
+k8s_resource('hello-world', port_forwards=8080)

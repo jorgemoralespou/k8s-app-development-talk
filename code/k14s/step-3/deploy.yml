@@ -1,0 +1,48 @@
+#@ load("@ytt:data", "data")
+
+#@ def labels():
+app: "hello-world"
+#@ end
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  type: ClusterIP  
+  ports:
+  - name: hello-world
+    port: #@ data.values.svc_port
+    targetPort: #@ data.values.app_port
+  selector: #@ labels()
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #@ labels()
+  template:
+    metadata:
+      labels: #@ labels()
+    spec:
+      containers:
+      - name: hello-world
+        image: registry.test:5000/hello-world
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-world
+spec:
+  rules:
+    - host: #@ data.values.route
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hello-world
+              servicePort: #@ data.values.svc_port
